@@ -16,9 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
-/**
- * Configuration de la sécurité Spring Security.
- */
 @Configuration // Indique que cette classe contient des beans de configuration.
 @EnableWebSecurity // Active les fonctionnalités de sécurité web de Spring Security.
 @EnableGlobalMethodSecurity(prePostEnabled = true) // Active la sécurité basée sur les annotations comme @PreAuthorize.
@@ -28,23 +25,11 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder; // Bean pour encoder les mots de passe.
     private final UserDetailsServiceImpl userDetailsService; // Service pour gérer les utilisateurs.
 
-    /**
-     * Configuration pour gérer les utilisateurs via une base de données (JDBC).
-     *
-     * @param dataSource La source de données utilisée pour la gestion des utilisateurs.
-     * @return           Un gestionnaire JDBC des utilisateurs.
-     */
     //@Bean
     public JdbcUserDetailsManager userDetailsManager(DataSource dataSource) {
         return new JdbcUserDetailsManager(dataSource);
     }
 
-    /**
-     * Configuration pour gérer les utilisateurs en mémoire.
-     * Utile pour les environnements de développement ou les tests.
-     *
-     * @return Un gestionnaire en mémoire des utilisateurs.
-     */
     //@Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         return new InMemoryUserDetailsManager(
@@ -55,14 +40,7 @@ public class SecurityConfig {
         );
     }
 
-    /**
-     * Configuration principale de la chaîne de filtres de sécurité.
-     * Définit les règles pour l'accès et l'authentification des utilisateurs.
-     *
-     * @param httpSecurity L'objet HttpSecurity utilisé pour configurer la sécurité.
-     * @return             La chaîne de filtres de sécurité configurée.
-     * @throws Exception   Si une erreur survient lors de la configuration.
-     */
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         // Configuration de la page de connexion personnalisée.

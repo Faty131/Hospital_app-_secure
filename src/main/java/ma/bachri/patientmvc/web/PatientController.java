@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 public class PatientController {
-    private final PatientRepository patientRepository;
+    private final PatientRepository patientRepository;//repository fait l'interaction directe avec BD
 
     // Liste des patients pour les utilisateurs
     @GetMapping(path = "/user/index")
@@ -85,7 +85,7 @@ public class PatientController {
 
     // Retourner la liste des patients au format JSON (pour tests)
     @GetMapping("/admin/patients")
-    @ResponseBody
+    @ResponseBody //recupere les donnes de format json
     public List<Patient> getPatientList() {
         return patientRepository.findAll();
     }

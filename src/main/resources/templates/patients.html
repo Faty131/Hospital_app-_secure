@@ -60,11 +60,11 @@
         </tbody>
       </table>
 
-      <ul class="nav nav-pills mt-3">
-        <li th:each="i : ${#numbers.sequence(0, pages.length - 1)}">
-          <a th:class="${i == currentPage ? 'btn btn-primary ms-1' : 'btn btn-outline-primary ms-1'}"
-             th:href="@{/index(page=${i}, size=${size}, keyword=${keyword})}"
-             th:text="${i + 1}">Page</a>
+      <ul class="nav nav-pills">
+        <li th:each="page,status:${pages}">
+          <a th:class="${status.index==currentPage?'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
+             th:text="${status.index}"
+             th:href="@{/user/index(page=${status.index}, keyword=${keyword})}"></a>
         </li>
       </ul>
     </div>
