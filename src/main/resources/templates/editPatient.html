@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire Patient</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="col-md-6 offset-md-3">
+        <h2>Modefier Un Patient</h2>
+        <form method="post" th:action="@{save(page=${page},keyword=${keyword})}">
+            <div class="mb-3">
+                <label>ID:</label>
+                <label th:text="${patient.id}"></label>
+                <input class="form-control" type="hidden" name="id" th:value="${patient.id}" required>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom</label>
+                <input id="nom" class="form-control" type="text" name="nom" th:value="${patient.nom}" required>
+                <span th:errors="${patient.nom}" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="dateNaissance" class="form-label">Date de Naissance</label>
+                <input id="dateNaissance" class="form-control" type="date" name="dateNaissance" th:value="${patient.dateNaissance}" required>
+                <span th:errors="${patient.dateNaissance}" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Malade</label>
+                <input type="checkbox" name="malade" th:checked="${patient.malade}">
+                <span th:errors="${patient.malade}" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="score" class="form-label">Score</label>
+                <input id="score" class="form-control" type="number" name="score" th:value="${patient.score}" min="0" step="1" required>
+                <span th:errors="${patient.score}" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary" th:href="@{/formPatients}">Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des Patients</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+
+
+<div class="container mt-2">
+  <div class="card">
+    <div class="card-header">
+      Liste des Patients
+    </div>
+    <div class="card-body">
+      <form method="get" th:action="@{/user/index}">
+        <label>Mot-clé</label>
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="Rechercher par nom" class="form-control d-inline w-50 me-2">
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+      </form>
+
+      <table class="table mt-3">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Date de Naissance</th>
+          <th>Malade</th>
+          <th>Score</th>
+          <th>Action</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${listPatients}">
+          <td th:text="${p.id}"></td>
+          <td th:text="${p.nom}"></td>
+          <td th:text="${#dates.format(p.dateNaissance, 'dd-MM-yyyy')}"></td>
+          <td th:text="${p.malade}"></td>
+          <td th:text="${p.score}"></td>
+          <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+            <a onclick="return confirm('Êtes-vous sûr ?')" class="btn btn-danger"
+               th:href="@{/admin/delete(id=${p.id}, keyword=${keyword}, page=${currentPage})}">
+              Supprimer
+            </a>
+            <a class="btn btn-success"
+               th:href="@{/admin/editPatient(id=${p.id}, keyword=${keyword}, page=${currentPage})}">
+              Modifier
+            </a>
+
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+
+      <ul class="nav nav-pills mt-3">
+        <li th:each="i : ${#numbers.sequence(0, pages.length - 1)}">
+          <a th:class="${i == currentPage ? 'btn btn-primary ms-1' : 'btn btn-outline-primary ms-1'}"
+             th:href="@{/index(page=${i}, size=${size}, keyword=${keyword})}"
+             th:text="${i + 1}">Page</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</div>
+</body>
+</html>
